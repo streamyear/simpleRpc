@@ -3,11 +3,15 @@ package com.rpc.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class RpcServer {
 	public static final int SERVER_PORT = 10000;
+	private static ExecutorService executorService = Executors.newFixedThreadPool(5);
 
 	public static void main(String[] args) throws IOException {
+
 		new RpcServer().run();
 	}
 
@@ -17,7 +21,7 @@ public class RpcServer {
 			while (true) {
 				Socket socket = listener.accept();
 				try {
-					new Thread(new HandleRequestTask(socket)).start();
+					executorService.execute(new HandleRequestTask(socket));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

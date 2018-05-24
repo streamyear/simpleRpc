@@ -39,6 +39,7 @@ public class RpcClientProxy {
 							// 将响应体反序列化
 							ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 							RpcResponse response = (RpcResponse)objectInputStream.readObject();
+							System.out.println(response);
 							return response.getResult();
 
 						}catch (Exception e){
